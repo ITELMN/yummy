@@ -9,7 +9,7 @@ st.set_page_config(
 )
 
 # Set your OpenAI API key here
-openai.api_key = "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"
+openai.api_key = st.text_input("open API Key", key="file_qa_api_key", type="password")
 
 with st.sidebar:
     uploaded_file = st.file_uploader("Upload an article", type=("txt", "md"))
