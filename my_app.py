@@ -1,35 +1,36 @@
-import openai
 import streamlit as st
+import openai
 
-# 在环境变量中设置您的 OpenAI API 密钥，避免硬编码
-# export OPENAI_API_KEY="YOUR_API_KEY"
-openai_api_key = st.secrets["openai_api_key"] if "openai_api_key" in st.secrets else ""
+# st.set_page_config(
+#     page_title="大学智能助手",
+#     page_icon="👻",
+#     layout="centered",
+#     initial_sidebar_state="collapsed",
+# )
+
+# Set your OpenAI API key here
 
 with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", type="password", value=openai_api_key)
+    uploaded_file = st.file_uploader("Upload an article", type=("txt", "md"))
+    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
-st.set_page_config(
-    page_title="大学智能助手",
-    page_icon="👻",
-    layout="centered",
-    initial_sidebar_state="collapsed",
+st.header('基于LLM&机器学习的大学生Ai智能助手系统', divider='rainbow')
+st.header(':blue[大学智能助手] 📝')
+
+question = st.text_input(
+    "提出你在大学中遇到的任何问题",
+    placeholder="中南大学国际贸易专业的就业方向怎么样？",
+    disabled=not uploaded_file,
 )
 
-st.title("💬大学智能助手")
-if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "How can I help you?"}]
+if uploaded_file and question:
+    article = uploaded_file.read().decode()
+    prompt = f"Here's an article:\n\n{article}\n\n{question}"
 
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
-
-if prompt := st.chat_input():
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-    else:
-        openai.api_key = openai_api_key
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.chat_message("user").write(prompt)
-        response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-        msg = response.choices[0].message
-        st.session_state.messages.append(msg)
-        st.chat_message("assistant").write(msg["content"])
+    response = openai.Completion.create(
+        engine="davinci",  # Use "davinci" for GPT-3, or other engines as needed
+        prompt=prompt,
+        max_tokens=100,  # Adjust the max tokens as needed
+    )
+    st.write("### Answer")
+    st.write(response.choices[0].text)
