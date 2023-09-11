@@ -29,17 +29,7 @@ if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = response.choices[0].message
-
-# 修改生成的回复内容，使其看起来像一个大学生的回应
-    msg["content"] = "嘿，我是你的大学生活一起度过的朋友，遇到什么问题了嘛？"
-
-# 添加修改后的回复到对话历史
-    st.session_state.messages.append({"role": "assistant", "content": msg["content"]})
-    st.chat_message("assistant").write(msg["content"])
-    # response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-    # msg = response.choices[0].message
-    # st.session_state.messages.append(msg)
-    # st.chat_message("assistant").write(msg.content)
+    st.session_state.messages.append(msg)
+    st.chat_message("assistant").write(msg.content)
