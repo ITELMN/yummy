@@ -15,7 +15,7 @@ with st.sidebar:
 st.header('基于LLM&机器学习的大学生Ai智能助手系统', divider='rainbow')
 st.title(':blue[大学智能助手] 📝')
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant",icon="⚠️", "content": "提出你在大学中遇到的任何问题..."}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "提出你在大学中遇到的任何问题..."}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
