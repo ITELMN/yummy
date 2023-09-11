@@ -9,11 +9,11 @@ st.set_page_config(
 )
 
 # Set your OpenAI API key here
-openai.api_key = st.text_input("open API Key", key="file_qa_api_key", type="password")
+
 
 with st.sidebar:
     uploaded_file = st.file_uploader("Upload an article", type=("txt", "md"))
-
+    openai.api_key = st.text_input("open API Key", key="file_qa_api_key", type="password")
 st.header('基于LLM&机器学习的大学生Ai智能助手系统', divider='rainbow')
 st.header(':blue[大学智能助手] 📝')
 
