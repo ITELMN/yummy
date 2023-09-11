@@ -1,16 +1,19 @@
+
+
 import openai
 import streamlit as st
-
+# st.set_page_config(
+#     page_title="大学智能助手",
+#     page_icon="👻",
+#     layout="centered",
+#     initial_sidebar_state="collapsed",
+# )
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
 
-st.set_page_config(
-    page_title="大学智能助手",
-    page_icon="👻",
-    layout="centered",
-    initial_sidebar_state="collapsed",
-)
+
+st.title("💬大学智能助手")
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
